@@ -4,5 +4,5 @@ export const USER_INVITE_CONSTANTS = {
   /** Frontend path for setting the invited user's password. */
   ACCEPT_PATH: "/accept-user-invite",
   /** Organization roles an owner can assign. Privileged platform roles are excluded. */
-  ALLOWED_ROLES: ["ADMIN", "HR", "PAYROLL_MANAGER", "MANAGER", "COMPANY_ADMIN", "FINANCE"] as const,
+  ALLOWED_ROLES: ["ADMIN", "HR", "PAYROLL_MANAGER", "MANAGER", "COMPANY_ADMIN", "FINANCE", "INSTRUCTOR"] as const,
 };

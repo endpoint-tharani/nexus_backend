@@ -8,6 +8,7 @@ enum UserRole {
   COMPANY_ADMIN
   FINANCE
   STUDENT
+  INSTRUCTOR
 }
 
 enum StudentStatus {
@@ -20,6 +21,20 @@ enum StudentStatus {
 }
 
 enum StudentDepartmentStatus {
+  ACTIVE
+  ENDED
+}
+
+enum InstructorStatus {
+  PENDING_APPROVAL
+  ACTIVE
+  SUSPENDED
+  INACTIVE
+  ARCHIVED
+  REJECTED
+}
+
+enum InstructorRelationshipStatus {
   ACTIVE
   ENDED
 }

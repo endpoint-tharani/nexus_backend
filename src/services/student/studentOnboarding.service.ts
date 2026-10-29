@@ -90,7 +90,7 @@ export async function registerWithAdmissionCode(input: RegistrationData, ipAddre
       type: "REGISTERED", description: "Student registered using an admission code", metadata: { requiresApproval: admission.requiresApproval },
     } });
     return { profile, user };
-  });
+  }, { maxWait: 10_000, timeout: 20_000 });
 
   if (result.user) {
     const otp = await OTP_SERVICE.issuePersistentOtp(normalizedEmail, OtpPurpose.EMAIL_VERIFICATION, result.user.id, ipAddress);

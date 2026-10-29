@@ -35,6 +35,11 @@ export default async function acceptUserInvite(params: AcceptUserInviteParams) {
       },
     });
 
+    if (role === "INSTRUCTOR") {
+      const profile = await tx.instructorProfile.create({ data: { userId: user.id, companyId, status: "PENDING_APPROVAL" } });
+      await tx.auditLog.create({ data: { userId: user.id, companyId, action: "INSTRUCTOR_PROFILE_CREATED", entityType: "InstructorProfile", entityId: profile.id, newValue: { status: "PENDING_APPROVAL" } } });
+    }
+
     await tx.userInvite.update({
       where: { id: inviteId },
       data: { usedAt: new Date() },

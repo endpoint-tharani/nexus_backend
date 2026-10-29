@@ -16,6 +16,7 @@ import studentRouter from "./student.routes.js";
 import STUDENT_CONTROLLER from "../controller/student.controller.js";
 import validateInput from "../middleware/inputValidator.middleware.js";
 import { studentSignupSchema } from "../schemas/student/student.schema.js";
+import instructorRouter from "./instructor.routes.js";
 
 const indexRouter = Router();
 
@@ -32,6 +33,8 @@ indexRouter.use("/branch", authenticateUser, authorizeCompanyAccess, branchRoute
 indexRouter.post("/students/signup", validateInput(studentSignupSchema), STUDENT_CONTROLLER.signup);
 indexRouter.use("/students", authenticateUser, authorizeCompanyAccess, studentRouter);
 indexRouter.use("/student", authenticateUser, studentRouter);
+indexRouter.use("/instructors", authenticateUser, authorizeCompanyAccess, instructorRouter);
+indexRouter.use("/instructor", authenticateUser, instructorRouter);
 
 
 export default indexRouter;

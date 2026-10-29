@@ -1,0 +1,28 @@
+import { Router } from "express";
+import { z } from "zod";
+import validateInput from "../middleware/inputValidator.middleware.js";
+import C from "../controller/instructor.controller.js";
+import { branchEndSchema, branchLinkSchema, createInstructorSchema, departmentEndSchema, instructorIdSchema, instructorStatusSchema, listInstructorsSchema, selfUpdateInstructorSchema, teachingStudentsSchema, updateInstructorSchema, departmentLinkSchema } from "../schemas/instructor/instructor.schema.js";
+
+const router = Router();
+router.get("/me/activities", C.meActivities);
+router.get("/me/students/:studentId/activities", validateInput(teachingStudentsSchema), C.studentActivities);
+router.get("/me/students", validateInput(teachingStudentsSchema), C.students);
+router.get("/me/departments", C.myDepartments);
+router.get("/me/branches", C.myBranches);
+router.get("/me", C.me);
+router.patch("/me", validateInput(selfUpdateInstructorSchema), C.updateMe);
+router.post("/", validateInput(createInstructorSchema), C.create);
+router.get("/", validateInput(listInstructorsSchema), C.list);
+router.get("/:instructorId/branches", validateInput(instructorIdSchema), C.branches);
+router.post("/:instructorId/branches", validateInput(branchLinkSchema), C.addBranch);
+router.delete("/:instructorId/branches/:branchId", validateInput(branchEndSchema), C.endBranch);
+router.get("/:instructorId/departments", validateInput(instructorIdSchema), C.departments);
+router.post("/:instructorId/departments", validateInput(departmentLinkSchema), C.addDepartment);
+router.delete("/:instructorId/departments/:departmentId", validateInput(departmentEndSchema), C.endDepartment);
+router.patch("/:instructorId/status", validateInput(instructorStatusSchema), C.status);
+router.post("/:instructorId/approve", validateInput(instructorIdSchema), C.approve);
+router.post("/:instructorId/reject", validateInput(z.object({ params: z.object({ instructorId: z.string().min(1).max(100) }), body: z.object({ reason: z.string().trim().max(500).optional() }) })), C.reject);
+router.patch("/:instructorId", validateInput(updateInstructorSchema), C.update);
+router.get("/:instructorId", validateInput(instructorIdSchema), C.get);
+export default router;

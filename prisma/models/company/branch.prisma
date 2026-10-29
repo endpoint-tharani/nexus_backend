@@ -18,6 +18,8 @@ model Branch {
   studentActivities StudentActivity[]
   studentStaffAssignments StudentStaffAssignment[]
   studentAdmissionCodes StudentAdmissionCode[]
+  instructorBranches InstructorBranch[]
+  instructorDepartments InstructorDepartment[]
 
   @@unique([companyId, code, deletedAt])
   @@index([companyId])

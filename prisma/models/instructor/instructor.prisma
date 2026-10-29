@@ -1,0 +1,76 @@
+model InstructorProfile {
+  id                String          @id @default(cuid())
+  userId            String          @unique
+  companyId         String
+  employeeCode      String?
+  phone             String?
+  bio               String?
+  specializations   String[]        @default([])
+  qualification     String?
+  experienceYears   Int?
+  joiningDate       DateTime?
+  status            InstructorStatus @default(PENDING_APPROVAL)
+  approvedAt        DateTime?
+  approvedById      String?
+  rejectionReason   String?
+  archivedAt        DateTime?
+  deletedAt         DateTime?
+  createdAt         DateTime        @default(now())
+  updatedAt         DateTime        @updatedAt
+  user              User            @relation(fields: [userId, companyId], references: [id, companyId], onDelete: Cascade)
+  approvedBy        User?           @relation("InstructorApprover", fields: [approvedById], references: [id], onDelete: SetNull)
+  company           Company         @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  branches          InstructorBranch[]
+  departments       InstructorDepartment[]
+
+  @@unique([id, companyId])
+  @@unique([userId, companyId])
+  @@unique([companyId, employeeCode])
+  @@index([companyId, status, createdAt])
+}
+
+model InstructorBranch {
+  id              String                       @id @default(cuid())
+  companyId       String
+  instructorId    String
+  branchId        String
+  status          InstructorRelationshipStatus @default(ACTIVE)
+  startedAt       DateTime                     @default(now())
+  endedAt         DateTime?
+  createdAt       DateTime                     @default(now())
+  updatedAt       DateTime                     @updatedAt
+  createdByUserId String?
+  company         Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdBy       User?            @relation("InstructorBranchCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  instructor      InstructorProfile @relation(fields: [instructorId, companyId], references: [id, companyId], onDelete: Cascade)
+  branch          Branch           @relation(fields: [companyId, branchId], references: [companyId, id], onDelete: Restrict)
+  departments     InstructorDepartment[]
+
+  @@unique([id, instructorId, branchId, companyId])
+  @@index([companyId, branchId, status])
+  @@index([instructorId, status])
+}
+
+model InstructorDepartment {
+  id                String                       @id @default(cuid())
+  companyId         String
+  instructorId      String
+  instructorBranchId String
+  branchId          String
+  departmentId      String
+  status            InstructorRelationshipStatus @default(ACTIVE)
+  startedAt         DateTime                     @default(now())
+  endedAt           DateTime?
+  createdAt         DateTime                     @default(now())
+  updatedAt         DateTime                     @updatedAt
+  createdByUserId   String?
+  company           Company          @relation(fields: [companyId], references: [id], onDelete: Cascade)
+  createdBy         User?            @relation("InstructorDepartmentCreator", fields: [createdByUserId], references: [id], onDelete: SetNull)
+  instructor        InstructorProfile @relation(fields: [instructorId, companyId], references: [id, companyId], onDelete: Cascade)
+  branch            Branch           @relation(fields: [companyId, branchId], references: [companyId, id], onDelete: Restrict)
+  department        Department       @relation(fields: [departmentId, companyId, branchId], references: [id, companyId, branchId], onDelete: Restrict)
+  instructorBranch  InstructorBranch @relation(fields: [instructorBranchId, instructorId, branchId, companyId], references: [id, instructorId, branchId, companyId], onDelete: Restrict)
+
+  @@index([companyId, branchId, departmentId, status])
+  @@index([instructorId, status])
+}

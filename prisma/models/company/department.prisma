@@ -9,6 +9,7 @@ model Department {
   branch    Branch?    @relation(fields: [branchId], references: [id])
   studentMemberships StudentDepartment[]
   studentStaffAssignments StudentStaffAssignment[]
+  instructorDepartments InstructorDepartment[]
 
   @@unique([branchId, name, deletedAt])
   @@index([companyId])

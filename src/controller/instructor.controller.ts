@@ -1,0 +1,34 @@
+import { Request, Response } from "express";
+import prisma from "../database/index.db.js";
+import { AppError } from "../types/AppError.js";
+import { successDataResponse } from "../handlers/serverResponse.handler.js";
+import INSTRUCTOR_SERVICE from "../services/instructor/instructor.service.js";
+
+const companyId = (req: Request) => { if (!req.company) throw new AppError("Company context required", 400); return req.company.id; };
+const create = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.create(req.user, companyId(req), req.body), 201);
+const list = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.list(req.user, companyId(req), req.query as unknown as { page: number; limit: number; search?: string; status?: never; branchId?: string; departmentId?: string }), 200);
+const get = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.get(req.user, companyId(req), req.params.instructorId), 200);
+const update = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.update(req.user, companyId(req), req.params.instructorId, req.body), 200);
+const status = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.setStatus(req.user, companyId(req), req.params.instructorId, req.body.status, req.body.reason), 200);
+const approve = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.setStatus(req.user, companyId(req), req.params.instructorId, "ACTIVE"), 200);
+const reject = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.setStatus(req.user, companyId(req), req.params.instructorId, "REJECTED", req.body.reason), 200);
+const branches = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.branches(req.user, companyId(req), req.params.instructorId), 200);
+const addBranch = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.addBranch(req.user, companyId(req), req.params.instructorId, req.body.branchId), 201);
+const endBranch = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.endBranch(req.user, companyId(req), req.params.instructorId, req.params.branchId), 200);
+const departments = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.departments(req.user, companyId(req), req.params.instructorId), 200);
+const addDepartment = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.addDepartment(req.user, companyId(req), req.params.instructorId, req.body.branchId, req.body.departmentId), 201);
+const endDepartment = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.endDepartment(req.user, companyId(req), req.params.instructorId, String(req.query.branchId ?? ""), req.params.departmentId), 200);
+const me = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.self(req.user), 200);
+const updateMe = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.updateSelf(req.user, req.body), 200);
+const myBranches = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.myBranches(req.user), 200);
+const myDepartments = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.myDepartments(req.user), 200);
+const students = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.teachingStudents(req.user, req.query as unknown as { page: number; limit: number; search?: string; branchId?: string; departmentId?: string }), 200);
+const studentActivities = async (req: Request, res: Response) => successDataResponse(res, await INSTRUCTOR_SERVICE.studentActivities(req.user, req.params.studentId, Number(req.query.page ?? 1), Number(req.query.limit ?? 20)), 200);
+const meActivities = async (req: Request, res: Response) => {
+  const profile = await INSTRUCTOR_SERVICE.self(req.user);
+  const page = Math.max(1, Number(req.query.page) || 1); const limit = Math.min(100, Math.max(1, Number(req.query.limit) || 20));
+  const where = { companyId: profile.companyId, actorId: profile.userId };
+  const [items, total] = await prisma.$transaction([prisma.studentActivity.findMany({ where, orderBy: { occurredAt: "desc" }, skip: (page - 1) * limit, take: limit }), prisma.studentActivity.count({ where })]);
+  return successDataResponse(res, { items, total, page, limit }, 200);
+};
+export default { create, list, get, update, status, approve, reject, branches, addBranch, endBranch, departments, addDepartment, endDepartment, me, updateMe, myBranches, myDepartments, students, studentActivities, meActivities };

@@ -21,6 +21,9 @@ model Company {
   studentActivities       StudentActivity[]
   studentStaffAssignments StudentStaffAssignment[]
   studentAdmissionCodes   StudentAdmissionCode[]
+  instructorProfiles      InstructorProfile[]
+  instructorBranches      InstructorBranch[]
+  instructorDepartments   InstructorDepartment[]
 
   @@index([name])
 }

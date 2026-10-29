@@ -15,8 +15,14 @@ model User {
   company                     Company?             @relation("CompanyUsers", fields: [companyId], references: [id], onDelete: Cascade)
   credential                  Credential?
   studentProfile              StudentProfile?
+  instructorProfile           InstructorProfile?
+  approvedInstructorProfiles  InstructorProfile[] @relation("InstructorApprover")
+  createdInstructorBranches   InstructorBranch[] @relation("InstructorBranchCreator")
+  createdInstructorDepartments InstructorDepartment[] @relation("InstructorDepartmentCreator")
   studentActivityActions       StudentActivity[]       @relation("StudentActivityActor")
   studentStaffAssignments      StudentStaffAssignment[] @relation("AssignedStaff")
   createdStudentAssignments    StudentStaffAssignment[] @relation("AssignmentCreator")
   otpChallenges                OtpChallenge[]
+
+  @@unique([id, companyId])
 }

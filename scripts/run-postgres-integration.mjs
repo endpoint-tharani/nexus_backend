@@ -34,6 +34,12 @@ async function neonGet(apiKey, apiPath) {
   });
   if (!response.ok) {
     await response.body?.cancel();
+    if (response.status === 404) {
+      throw new Error("Neon returned 404 for the configured project/branch. Verify NEON_PROJECT_ID and NEON_TEST_BRANCH_ID in the Neon Console; use the branch ID (not its name) from that same project, and confirm NEON_API_KEY can access it.");
+    }
+    if (response.status === 401 || response.status === 403) {
+      throw new Error(`Neon returned HTTP ${response.status}; verify that NEON_API_KEY is valid and has access to NEON_PROJECT_ID.`);
+    }
     throw new Error(`Neon API returned HTTP ${response.status} for branch verification.`);
   }
   return response.json();
@@ -133,6 +139,7 @@ try {
   const vitestStatus = runNode(vitestCli, [
     "run",
     "tests/studentManagement.integration.test.ts",
+    "tests/instructorManagement.integration.test.ts",
     "--testTimeout=60000",
     "--hookTimeout=60000",
     "--reporter=json",

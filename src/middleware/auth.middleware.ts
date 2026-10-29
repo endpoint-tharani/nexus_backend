@@ -37,6 +37,11 @@ export default async function authenticateUser(
     if (profile?.status !== "ACTIVE") throw new AppError("Student account is not active", 403);
   }
 
+  if (user.userRole === "INSTRUCTOR") {
+    const profile = await prisma.instructorProfile.findFirst({ where: { userId: user.id, companyId: user.companyId ?? "", deletedAt: null }, select: { status: true } });
+    if (profile?.status !== "ACTIVE") throw new AppError("Instructor account is not active", 403);
+  }
+
   let company = null;
 
   if (user.companyId) {

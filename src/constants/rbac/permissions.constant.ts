@@ -71,6 +71,7 @@ export const ROLE_PERMISSIONS: Record<UserRole, Matrix> = {
   },
 
   STUDENT: {},
+  INSTRUCTOR: {},
 };
 
 export function hasPermission(

@@ -3,6 +3,7 @@ import { AppError } from "../../../types/AppError.js";
 import AUTH_SERVICE from "../index.service.js";
 import buildLoginAccess from "./buildLoginAccess.service.js";
 import { getDeviceInfoAndIp } from "../../../utils/deviceInfo.util.js";
+import prisma from "../../../database/index.db.js";
 
 export async function loginByEmail(email: string, password: string, req?: Request) {
   const user = await AUTH_SERVICE.PASSWORD.validateUserPassword(
@@ -12,6 +13,11 @@ export async function loginByEmail(email: string, password: string, req?: Reques
 
   if (user.isEmailVerified === false) {
     throw new AppError("Email not verified", 400);
+  }
+
+  if (user.userRole === "INSTRUCTOR") {
+    const profile = await prisma.instructorProfile.findFirst({ where: { userId: user.id, companyId: user.companyId ?? "", deletedAt: null } });
+    if (profile?.status !== "ACTIVE") throw new AppError("Instructor account is not active", 403);
   }
 
   const refreshToken = await AUTH_SERVICE.REFRESH_TOKEN.generateRefreshToken({
