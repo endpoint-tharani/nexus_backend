@@ -1,0 +1,16 @@
+﻿info:
+  name: Approve Instructor
+  type: http
+  seq: 6
+
+http:
+  method: POST
+  url: "{{baseUrl}}/instructors/{{instructorId}}/approve?companyId={{companyId}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

@@ -1,4 +1,4 @@
-name: test
+ame: test
 variables:
   - name: baseUrl
     value: https://nexus-backend-dun-iota.vercel.app/api
@@ -59,4 +59,46 @@ variables:
     description: ""
   - name: staffUserId
     value: ""
+    description: ""
+  - name: instructorId
+    value: ""
+    description: ""
+  - name: instructorInviteId
+    value: ""
+    description: ""
+  - name: instructorName
+    value: ""
+    description: ""
+  - name: instructorEmail
+    value: ""
+    description: ""
+  - name: instructorCode
+    value: ""
+    description: ""
+  - name: instructorPhone
+    value: ""
+    description: ""
+  - name: instructorBio
+    value: ""
+    description: ""
+  - name: instructorBranchId
+    value: ""
+    description: ""
+  - name: instructorDepartmentId
+    value: ""
+    description: ""
+  - name: instructorStatus
+    value: ACTIVE
+    description: ""
+  - name: statusReason
+    value: ""
+    description: ""
+  - name: search
+    value: ""
+    description: ""
+  - name: page
+    value: "1"
+    description: ""
+  - name: limit
+    value: "20"
     description: ""

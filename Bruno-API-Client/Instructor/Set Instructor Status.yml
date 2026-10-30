@@ -1,0 +1,23 @@
+﻿info:
+  name: Set Instructor Status
+  type: http
+  seq: 5
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/instructors/{{instructorId}}/status?companyId={{companyId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "status": "{{instructorStatus}}",
+        "reason": "{{statusReason}}"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

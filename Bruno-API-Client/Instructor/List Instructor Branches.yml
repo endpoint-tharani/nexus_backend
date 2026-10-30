@@ -1,0 +1,16 @@
+﻿info:
+  name: List Instructor Branches
+  type: http
+  seq: 8
+
+http:
+  method: GET
+  url: "{{baseUrl}}/instructors/{{instructorId}}/branches?companyId={{companyId}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

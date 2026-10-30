@@ -1,0 +1,16 @@
+﻿info:
+  name: My Instructor Branches
+  type: http
+  seq: 16
+
+http:
+  method: GET
+  url: "{{baseUrl}}/instructor/me/branches"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

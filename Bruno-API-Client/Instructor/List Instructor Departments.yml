@@ -1,0 +1,16 @@
+﻿info:
+  name: List Instructor Departments
+  type: http
+  seq: 11
+
+http:
+  method: GET
+  url: "{{baseUrl}}/instructors/{{instructorId}}/departments?companyId={{companyId}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
