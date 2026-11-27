@@ -1,4 +1,4 @@
-﻿opencollection: 1.0.0
+pencollection: 1.0.0
 
 info:
   name: Nexus API Client
@@ -59,6 +59,34 @@ request:
       value: ""
     - name: staffUserId
       value: ""
+    - name: instructorId
+      value: ""
+    - name: instructorInviteId
+      value: ""
+    - name: instructorName
+      value: ""
+    - name: instructorEmail
+      value: ""
+    - name: instructorCode
+      value: ""
+    - name: instructorPhone
+      value: ""
+    - name: instructorBio
+      value: ""
+    - name: instructorBranchId
+      value: ""
+    - name: instructorDepartmentId
+      value: ""
+    - name: instructorStatus
+      value: ACTIVE
+    - name: statusReason
+      value: ""
+    - name: search
+      value: ""
+    - name: page
+      value: "1"
+    - name: limit
+      value: "20"
 bundled: false
 extensions:
   bruno:

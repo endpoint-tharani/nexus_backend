@@ -1,0 +1,28 @@
+﻿info:
+  name: Update Instructor
+  type: http
+  seq: 4
+
+http:
+  method: PATCH
+  url: "{{baseUrl}}/instructors/{{instructorId}}?companyId={{companyId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "employeeCode": "{{instructorCode}}",
+        "phone": "{{instructorPhone}}",
+        "bio": "{{instructorBio}}",
+        "specializations": ["Mathematics"],
+        "qualification": "MSc",
+        "experienceYears": 5,
+        "joiningDate": "2026-01-15"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

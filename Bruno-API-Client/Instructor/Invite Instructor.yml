@@ -1,0 +1,23 @@
+﻿info:
+  name: Invite Instructor
+  type: http
+  seq: 1
+
+http:
+  method: POST
+  url: "{{baseUrl}}/instructors?companyId={{companyId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "name": "{{instructorName}}",
+        "email": "{{instructorEmail}}"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

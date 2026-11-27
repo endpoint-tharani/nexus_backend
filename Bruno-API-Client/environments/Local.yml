@@ -1,4 +1,4 @@
-name: Local
+ame: Local
 variables:
   - name: baseUrl
     value: http://localhost:8000/api
@@ -40,3 +40,31 @@ variables:
     value: ""
   - name: staffUserId
     value: ""
+  - name: instructorId
+    value: ""
+  - name: instructorInviteId
+    value: ""
+  - name: instructorName
+    value: ""
+  - name: instructorEmail
+    value: ""
+  - name: instructorCode
+    value: ""
+  - name: instructorPhone
+    value: ""
+  - name: instructorBio
+    value: ""
+  - name: instructorBranchId
+    value: ""
+  - name: instructorDepartmentId
+    value: ""
+  - name: instructorStatus
+    value: ACTIVE
+  - name: statusReason
+    value: ""
+  - name: search
+    value: ""
+  - name: page
+    value: "1"
+  - name: limit
+    value: "20"

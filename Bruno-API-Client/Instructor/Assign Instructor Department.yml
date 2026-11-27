@@ -1,0 +1,23 @@
+﻿info:
+  name: Assign Instructor Department
+  type: http
+  seq: 12
+
+http:
+  method: POST
+  url: "{{baseUrl}}/instructors/{{instructorId}}/departments?companyId={{companyId}}"
+  body:
+    type: json
+    data: |-
+      {
+        "branchId": "{{instructorBranchId}}",
+        "departmentId": "{{instructorDepartmentId}}"
+      }
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

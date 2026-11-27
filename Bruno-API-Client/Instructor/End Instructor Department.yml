@@ -1,0 +1,16 @@
+﻿info:
+  name: End Instructor Department
+  type: http
+  seq: 13
+
+http:
+  method: DELETE
+  url: "{{baseUrl}}/instructors/{{instructorId}}/departments/{{instructorDepartmentId}}?companyId={{companyId}}&branchId={{instructorBranchId}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+

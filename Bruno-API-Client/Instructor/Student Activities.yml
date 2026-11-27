@@ -1,0 +1,16 @@
+﻿info:
+  name: Student Activities
+  type: http
+  seq: 20
+
+http:
+  method: GET
+  url: "{{baseUrl}}/instructor/me/students/{{studentId}}/activities?page={{page}}&limit={{limit}}"
+  auth: inherit
+
+settings:
+  encodeUrl: true
+  timeout: 0
+  followRedirects: true
+  maxRedirects: 5
+
